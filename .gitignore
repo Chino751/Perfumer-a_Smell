@@ -1,0 +1,29 @@
+# Credenciales y configuración local
+/config/database.php
+.env
+.env.*
+!.env.example
+
+# Contenido generado por usuarios
+/uploads/products/*
+/uploads/combos/*
+
+# Copias de seguridad, exportaciones y registros
+/backups/
+*.bak
+*.dump
+*.log
+*.sql
+!/database/schema.sql
+
+# Dependencias y herramientas locales
+/vendor/
+/.idea/
+/.vscode/
+.DS_Store
+Thumbs.db
+
+# Paquetes de distribución
+*.zip
+*.tar
+*.tar.gz

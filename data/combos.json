@@ -1,0 +1,13 @@
+[
+  {"id":"lujo","name":"Combo Lujo","type":"3 decants de 10 ml","price":630,"image":"/assets/combos/combo-lujo.webp","items":["Arabians Tonka","Erba Pura","Born in Roma Intense"]},
+  {"id":"diva-decants","name":"Combo Diva","type":"3 decants de 10 ml","price":400,"image":"/assets/combos/combo-diva-decants.webp","items":["Burberry Her","La Bomba","Eclaire Pistache"]},
+  {"id":"cholero","name":"Combo Cholero","type":"3 decants de 10 ml","price":400,"image":"/assets/combos/combo-cholero.webp","items":["The Most Wanted","Le Male Elixir","Scandal Pour Homme Le Parfum"]},
+  {"id":"escuela","name":"Combo Escuela","type":"3 decants de 10 ml","price":220,"image":"/assets/combos/combo-escuela.webp","items":["Hawas Ice","Odyssey Aqua Edition","Turathi Blue"]},
+  {"id":"dubai","name":"Combo Dubai","type":"3 decants de 10 ml","price":250,"image":"/assets/combos/combo-dubai.webp","items":["Odyssey Mandarin Sky","9PM Night Out","Liquid Brun"]},
+  {"id":"magnate","name":"Combo Magnate","type":"3 decants de 10 ml","price":480,"image":"/assets/combos/combo-magnate.webp","items":["Le Male Le Parfum","Stronger With You Intensely","Bleu de Chanel Le Parfum"]},
+  {"id":"smell","name":"Combo Smell","type":"3 perfumes completos de 100 ml","price":1080,"image":"/assets/combos/combo-smell.webp","items":["9PM Dive","Odyssey Mandarin Sky","Khamrah"]},
+  {"id":"gringo","name":"Combo Gringo","type":"1 perfume de 125 ml y 2 de 100 ml","price":3350,"image":"/assets/combos/combo-gringo.webp","items":["Le Male Elixir · 125 ml","Scandal Pour Homme Le Parfum · 100 ml","Acqua di Giò · 100 ml"]},
+  {"id":"arabe","name":"Combo Árabe","type":"3 perfumes completos de 100 ml","price":1380,"image":"/assets/combos/combo-arabe.webp","items":["Hawas Ice","9PM Rebel","9AM Dive"]},
+  {"id":"amo-santa-cruz","name":"Combo Amo Santa Cruz","type":"3 perfumes completos de 100 ml","price":1400,"image":"/assets/combos/combo-amo-santa-cruz.webp","items":["Hawas Fire","Odyssey Aqua Edition","Art of Universe"]},
+  {"id":"diva","name":"Combo Diva","type":"3 perfumes completos de 100 ml","price":1100,"image":"/assets/combos/combo-diva.webp","items":["Yara Rosa","Odyssey Candee","Eclaire Pistache"]}
+]
