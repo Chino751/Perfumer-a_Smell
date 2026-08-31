@@ -98,16 +98,6 @@ perfumeria_smell/
 └── install.php  Instalador inicial
 ```
 
-## Seguridad antes de publicar
-
-- No confirmes en Git `config/database.php`, archivos `.env`, copias de seguridad ni exportaciones de la base de datos.
-- Usa una cuenta MySQL exclusiva con permisos mínimos.
-- Cambia cualquier credencial que haya sido expuesta anteriormente.
-- Configura HTTPS en el servidor de producción.
-- Elimina o restringe el acceso a `install.php` después de instalar.
-- Conserva las protecciones `.htaccess` de `config/`, `data/`, `database/` y `uploads/`.
-- Consulta [SECURITY.md](SECURITY.md) para el reporte responsable de vulnerabilidades.
-
 ## Consideraciones legales
 
 Los textos legales incluidos sirven como base funcional para el comportamiento actual del sitio. Antes de utilizar el sistema comercialmente, deben ser revisados y adaptados por el responsable del negocio conforme a la normativa aplicable en su jurisdicción.
