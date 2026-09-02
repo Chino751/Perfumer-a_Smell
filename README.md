@@ -1,107 +1,115 @@
 # Perfumería Smell
 
-Plataforma web responsive para la exhibición y administración de perfumes, decants y combos. Permite que los clientes exploren el catálogo, preparen una selección y envíen una solicitud de cotización organizada mediante WhatsApp.
+Catálogo responsive de perfumes, decants y combos con carrito local, solicitud de cotización por WhatsApp y panel administrativo. Esta versión reemplaza la aplicación PHP/MySQL original por un frontend Vite desplegable en Vercel y un backend administrado en Supabase.
 
-El proyecto fue desarrollado con enfoque mobile-first para negocios de perfumería que necesitan una solución ligera, instalable en XAMPP y administrable sin depender de plataformas de comercio electrónico externas.
+## Arquitectura
 
-## Funcionalidades principales
+- **Vercel:** publicación del frontend estático y vistas previas por rama.
+- **Supabase PostgreSQL:** perfumes, combos, stock y configuración pública.
+- **Supabase Auth:** acceso por correo y contraseña al panel administrativo.
+- **Supabase Storage:** almacenamiento permanente de nuevas imágenes.
+- **GitHub:** historial, revisión y despliegue automático del código.
 
-### Tienda pública
+El navegador usa exclusivamente una clave publicable de Supabase. Las políticas Row Level Security (RLS) permiten lectura pública de productos visibles y reservan las modificaciones para usuarios registrados en `admin_profiles`.
 
-- Catálogo de 71 perfumes con buscador y filtro por marca.
-- Presentaciones de decants de 5 ml y 10 ml.
-- Solicitud de perfumes completos con precio sujeto a cotización.
-- Seis combos de decants y cinco combos de perfumes completos.
-- Carrito persistente mediante almacenamiento local del navegador.
-- Aviso automático de descuento al seleccionar tres o más decants.
-- Selección de QR, efectivo o transferencia como forma de pago preferida.
-- Generación de un mensaje de pedido completo para WhatsApp.
-- Información de ubicación, horario, redes sociales y retiro en tienda.
-- Secciones de términos, privacidad, cookies, compras y reclamos.
-- Diseño adaptable para teléfonos, tabletas y computadoras.
+## Funciones principales
+
+### Sitio público
+
+- Catálogo de 71 perfumes con búsqueda y filtro por marca.
+- Decants de 5 ml y 10 ml, perfumes completos y 11 combos.
+- Selección persistente en `localStorage`.
+- Aviso de descuento desde tres decants.
+- Mensaje de cotización estructurado para WhatsApp.
+- Páginas de términos, privacidad, cookies, compra y reclamos.
+- Diseño adaptable para teléfono, tableta y computadora.
+- Respaldo JSON de solo lectura si la API pública no responde temporalmente.
 
 ### Panel administrativo
 
-- Acceso mediante usuario y contraseña creados durante la instalación.
-- Contraseñas almacenadas mediante hash seguro de PHP.
-- Administración de perfumes, marcas, precios, stock, imágenes y visibilidad.
-- Administración de combos, productos incluidos y precios.
-- Edición de información pública del negocio.
-- Protección CSRF, consultas preparadas y validación de imágenes.
-- Bloqueo temporal después de varios intentos de acceso incorrectos.
+- Inicio de sesión mediante Supabase Auth.
+- Edición de perfumes, precios, stock, imágenes y visibilidad.
+- Edición de combos, contenido, precio e imagen.
+- Edición del WhatsApp, horario, ubicación y redes sociales.
+- Carga de imágenes a Supabase Storage con validación de tipo y tamaño.
+- Protección por RLS; no existe registro público de administradores.
 
-## Tecnologías
+## Requisitos
 
-- PHP 8.1 o superior.
-- MySQL 8 o MariaDB compatible.
-- HTML5, CSS3 y JavaScript.
-- Apache mediante XAMPP o un entorno equivalente.
-- PDO para el acceso seguro a la base de datos.
+- Node.js 22 o superior.
+- npm 10 o superior.
+- Un proyecto de Supabase con el esquema incluido.
 
-## Instalación local con XAMPP
+## Configuración local
 
-1. Clona o descarga este repositorio dentro de `C:\xampp\htdocs\`.
-2. Asegúrate de que la carpeta del proyecto se llame `perfumeria_smell`.
-3. Copia `config/database.example.php` como `config/database.php`.
-4. Completa en `config/database.php` los datos de tu servidor MySQL local.
-5. Inicia Apache y MySQL desde XAMPP.
-6. Abre `http://localhost/perfumeria_smell/install.php`.
-7. Crea el usuario y la contraseña del administrador.
-8. Ingresa al panel desde `http://localhost/perfumeria_smell/admin/`.
+1. Instala las dependencias:
 
-El instalador crea la base de datos, las tablas y la información inicial del catálogo. No existen credenciales administrativas predeterminadas dentro del repositorio.
+   ```bash
+   npm ci
+   ```
 
-## Configuración de la base de datos
+2. Copia `.env.example` como `.env.local` y completa:
 
-Las credenciales privadas no se almacenan en Git. La aplicación admite dos métodos:
+   ```text
+   VITE_SUPABASE_URL=https://tu-proyecto.supabase.co
+   VITE_SUPABASE_PUBLISHABLE_KEY=sb_publishable_...
+   ```
 
-### Archivo local
+3. Inicia el entorno local:
 
-Copia el archivo de ejemplo:
+   ```bash
+   npm run dev
+   ```
 
-```text
-config/database.example.php → config/database.php
+Nunca agregues `.env.local`, claves secretas o contraseñas al repositorio.
+
+## Base de datos
+
+Los archivos versionados son:
+
+- `supabase/schema.sql`: tablas, funciones, triggers, permisos y políticas RLS.
+- `supabase/seed.sql`: catálogo, combos, configuración y bucket inicial.
+
+El esquema debe aplicarse antes de los datos iniciales. La creación del primer administrador se realiza en dos pasos seguros:
+
+1. Crear el usuario directamente en Supabase Auth, definiendo allí su contraseña.
+2. Agregar su UUID a `public.admin_profiles` mediante una operación administrativa.
+
+La contraseña nunca se comparte por chat ni se guarda en GitHub.
+
+## Comandos
+
+```bash
+npm run dev       # servidor local
+npm run check     # valida estructura, catálogo e imágenes
+npm run build     # genera dist/
+npm run verify    # validación completa y compilación
+npm run preview   # vista previa de dist/
 ```
 
-`config/database.php` se encuentra excluido mediante `.gitignore`.
+## Despliegue en Vercel
 
-### Variables de entorno
-
-También puedes definir:
+Configura estas variables para los entornos Preview y Production:
 
 ```text
-SMELL_DB_HOST
-SMELL_DB_PORT
-SMELL_DB_NAME
-SMELL_DB_USER
-SMELL_DB_PASSWORD
+VITE_SUPABASE_URL
+VITE_SUPABASE_PUBLISHABLE_KEY
 ```
 
-## Importación manual
+Vercel detecta Vite, ejecuta `npm run build` y publica `dist`. Las ramas generan vistas previas; `main` se reserva para producción.
 
-Como alternativa al instalador, importa `database/schema.sql` desde phpMyAdmin. El archivo crea la base `perfumeria_smell` y dirige explícitamente las tablas a ella, evitando errores por falta de una base seleccionada.
-
-Después de importar el esquema, abre `install.php` para cargar el catálogo inicial y crear el primer administrador.
-
-## Estructura del proyecto
+## Estructura
 
 ```text
-perfumeria_smell/
-├── admin/       Panel administrativo
-├── assets/      Estilos, JavaScript e imágenes públicas
-├── config/      Conexión, autenticación y carga de archivos
-├── data/        Catálogo inicial en JSON
-├── database/    Esquema de MySQL
-├── includes/    Componentes públicos reutilizables
-├── uploads/     Imágenes añadidas por el administrador
-├── index.php    Tienda pública
-└── install.php  Instalador inicial
+admin/       Páginas del panel
+assets/      Estilos e imágenes iniciales
+data/        Respaldo público de solo lectura
+scripts/     Verificaciones y preparación de la compilación
+src/         Lógica del sitio y cliente de Supabase
+supabase/    Esquema y datos iniciales PostgreSQL
+*.html       Tienda y páginas informativas
 ```
 
 ## Consideraciones legales
 
-Los textos legales incluidos sirven como base funcional para el comportamiento actual del sitio. Antes de utilizar el sistema comercialmente, deben ser revisados y adaptados por el responsable del negocio conforme a la normativa aplicable en su jurisdicción.
-
-## Estado del proyecto
-
-Proyecto funcional orientado a instalación propia. Antes de llevarlo a producción se recomienda ejecutar pruebas en el servidor definitivo, configurar HTTPS, establecer copias de seguridad y revisar permisos de archivos y base de datos.
+Los textos legales son una base funcional coherente con el comportamiento actual. El responsable del negocio debe revisarlos con asesoría local antes de operar comercialmente.
