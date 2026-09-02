@@ -1,6 +1,7 @@
 -- Canonical Supabase schema for Perfumería Smell.
 
--- Exported from migration 20260902022635 (initial_store_schema).
+-- Exported from migrations 20260902022635 (initial_store_schema)
+-- and 20260902225911 (authorize_initial_admin).
 
 -- Apply through the Supabase migration workflow; never place secret/service-role keys in source control.
 
@@ -10,6 +11,17 @@ begin;
 
 create schema if not exists private;
 revoke all on schema private from public, anon, authenticated;
+
+create table private.admin_email_allowlist (
+  email text primary key check (email = lower(email) and email ~ '^[^@[:space:]]+@[^@[:space:]]+$'),
+  display_name text not null default 'Administrador' check (char_length(display_name) between 2 and 100),
+  created_at timestamptz not null default now()
+);
+
+revoke all on private.admin_email_allowlist from public, anon, authenticated, service_role;
+
+-- Keep environment-specific administrator emails out of source control.
+-- Add them through a private migration before creating the Auth user.
 
 alter default privileges for role postgres in schema public
   revoke select, insert, update, delete on tables from anon, authenticated, service_role;
@@ -96,8 +108,36 @@ begin
 end;
 $$;
 
+create or replace function private.grant_allowlisted_admin_profile()
+returns trigger
+language plpgsql
+security definer
+set search_path = ''
+as $$
+declare
+  allowed_display_name text;
+begin
+  select allowlist.display_name
+    into allowed_display_name
+  from private.admin_email_allowlist as allowlist
+  where allowlist.email = lower(new.email)
+  limit 1;
+
+  if allowed_display_name is not null then
+    insert into public.admin_profiles (user_id, display_name, is_active)
+    values (new.id, allowed_display_name, true)
+    on conflict (user_id) do update
+      set display_name = excluded.display_name,
+          is_active = true;
+  end if;
+
+  return new;
+end;
+$$;
+
 revoke execute on function private.set_updated_at() from public, anon, authenticated, service_role;
 revoke execute on function private.protect_exact_perfume_prices() from public, anon, authenticated, service_role;
+revoke execute on function private.grant_allowlisted_admin_profile() from public, anon, authenticated, service_role;
 
 create trigger admin_profiles_set_updated_at before update on public.admin_profiles
 for each row execute function private.set_updated_at();
@@ -109,6 +149,9 @@ create trigger combos_set_updated_at before update on public.combos
 for each row execute function private.set_updated_at();
 create trigger settings_set_updated_at before update on public.settings
 for each row execute function private.set_updated_at();
+create trigger perfumeria_smell_grant_admin
+after insert on auth.users
+for each row execute function private.grant_allowlisted_admin_profile();
 
 alter table public.admin_profiles enable row level security;
 alter table public.perfumes enable row level security;
@@ -260,4 +303,3 @@ using (
 
 notify pgrst, 'reload schema';
 commit;
-
