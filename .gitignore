@@ -1,12 +1,7 @@
 # Credenciales y configuración local
-/config/database.php
 .env
 .env.*
 !.env.example
-
-# Contenido generado por usuarios
-/uploads/products/*
-/uploads/combos/*
 
 # Copias de seguridad, exportaciones y registros
 /backups/
@@ -14,10 +9,12 @@
 *.dump
 *.log
 *.sql
-!/database/schema.sql
+!/database/supabase-schema.sql
+!/database/supabase-seed.sql
 
 # Dependencias y herramientas locales
-/vendor/
+node_modules/
+.vercel/
 /.idea/
 /.vscode/
 .DS_Store

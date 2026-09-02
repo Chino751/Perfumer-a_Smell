@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Ingresar | Administración Smell</title>
+  <link rel="icon" href="/assets/img/brand/logo-smell.webp" type="image/webp">
+  <link rel="stylesheet" href="/admin/admin.css">
+  <link rel="stylesheet" href="/admin/panel.css">
+  <script type="module" src="/assets/js/admin-login.js"></script>
+</head>
+<body class="login-page">
+  <main class="login-box">
+    <img src="/assets/img/brand/logo-smell.webp" alt="Perfumería Smell">
+    <p class="login-kicker">Acceso protegido</p>
+    <h1>Panel administrativo</h1>
+    <p class="subtitle">Gestiona el catálogo, existencias, imágenes, combos y datos del negocio.</p>
+    <div class="notice" id="login-notice" role="alert" hidden></div>
+    <form id="login-form" novalidate>
+      <label>Correo del administrador<input id="email" name="email" type="email" required autocomplete="username" inputmode="email" maxlength="254"></label>
+      <label>Contraseña<input id="password" name="password" type="password" required minlength="8" maxlength="128" autocomplete="current-password"></label>
+      <button class="btn gold" id="login-submit" type="submit">Ingresar</button>
+    </form>
+    <p class="login-help">No existe registro público. Solo una cuenta autorizada en Supabase puede ingresar.</p>
+    <a href="/">Volver a la tienda</a>
+  </main>
+</body>
+</html>
