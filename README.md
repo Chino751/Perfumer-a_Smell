@@ -103,20 +103,22 @@ Para recrear una base nueva:
 
 1. Ejecuta `database/supabase-schema.sql` mediante el flujo de migraciones de Supabase.
 2. Ejecuta una sola vez `database/supabase-seed.sql`.
-3. Crea el usuario administrativo en **Authentication > Users**.
-4. Autorízalo desde el SQL Editor, sustituyendo el correo:
+3. Añade el correo autorizado desde el SQL Editor, sustituyendo el ejemplo:
 
 ```sql
-insert into public.admin_profiles (user_id, display_name)
-select id, 'Administrador'
-from auth.users
-where email = 'correo-del-administrador@ejemplo.com'
-on conflict (user_id) do update
-set display_name = excluded.display_name,
-    is_active = true;
+insert into private.admin_email_allowlist (email, display_name)
+values ('correo-del-administrador@ejemplo.com', 'Administrador')
+on conflict (email) do update
+set display_name = excluded.display_name;
 ```
 
-No hay registro público de administradores.
+4. Crea el usuario en **Authentication > Users**. El disparador seguro crea su
+   perfil activo únicamente si el correo está en la lista privada. Si el usuario
+   ya existía antes de añadirlo, ejecuta una migración controlada para copiar su
+   UUID a `public.admin_profiles`.
+
+No hay registro público de administradores y la lista de correos permitidos no se
+expone mediante la API.
 
 ## Despliegue en Vercel
 
@@ -137,4 +139,3 @@ No hay registro público de administradores.
 - Los textos legales deben ser revisados por el responsable del negocio antes de una operación comercial definitiva.
 
 Consulta [SECURITY.md](SECURITY.md) para el procedimiento de reporte y las reglas de manejo de credenciales.
-
