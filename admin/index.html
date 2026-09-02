@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Administración | Perfumería Smell</title>
+  <link rel="icon" href="/assets/img/brand/logo-smell.webp" type="image/webp">
+  <link rel="stylesheet" href="/admin/admin.css">
+  <link rel="stylesheet" href="/admin/panel.css">
+  <script type="module" src="/assets/js/admin.js"></script>
+</head>
+<body>
+  <header class="admin-header">
+    <a class="admin-brand" href="/admin/"><img src="/assets/img/brand/logo-smell.webp" alt="Smell">Administración Smell</a>
+    <nav class="admin-nav" aria-label="Módulos de administración">
+      <button class="active" type="button" data-view-target="summary">Resumen</button>
+      <button type="button" data-view-target="perfumes">Perfumes</button>
+      <button type="button" data-view-target="combos">Combos</button>
+      <button type="button" data-view-target="settings">Negocio</button>
+      <a href="/" target="_blank" rel="noopener">Ver tienda</a>
+      <button type="button" id="logout">Salir</button>
+    </nav>
+  </header>
+
+  <main class="admin-main">
+    <div class="admin-topline"><div><p class="admin-eyebrow">Panel seguro</p><h1 id="view-title">Resumen general</h1><p class="subtitle">Hola, <span id="admin-name">Administrador</span>. Desde aquí puedes mantener actualizado el catálogo.</p></div><span class="connection-state" id="connection-state">Conectando…</span></div>
+    <div class="notice" id="admin-notice" role="status" hidden></div>
+
+    <section data-view="summary">
+      <div class="cards">
+        <article class="stat"><strong id="stat-perfumes">—</strong><span>Perfumes registrados</span></article>
+        <article class="stat"><strong id="stat-active">—</strong><span>Perfumes visibles</span></article>
+        <article class="stat"><strong id="stat-combos">—</strong><span>Combos activos</span></article>
+        <article class="stat"><strong id="stat-stock">—</strong><span>Unidades registradas</span></article>
+      </div>
+      <section class="panel">
+        <h2>Accesos rápidos</h2>
+        <div class="toolbar"><button class="btn gold" type="button" data-view-target="perfumes">Gestionar perfumes</button><button class="btn" type="button" data-view-target="combos">Gestionar combos</button><button class="btn light" type="button" data-view-target="settings">Datos del negocio</button><a class="btn light" href="/" target="_blank" rel="noopener">Abrir catálogo</a></div>
+        <p class="subtitle">Los registros marcados como “Precio exacto” están protegidos también en la base de datos y sus precios no se pueden modificar.</p>
+      </section>
+    </section>
+
+    <section data-view="perfumes" hidden>
+      <section class="panel">
+        <div class="section-bar"><div><h2>Perfumes</h2><p class="subtitle">Edita datos, visibilidad, existencias e imágenes.</p></div><span class="record-count" id="perfume-count">0 registros</span></div>
+        <div class="toolbar"><input id="perfume-search" type="search" placeholder="Buscar por perfume o marca…" aria-label="Buscar perfumes"><select id="perfume-visibility" aria-label="Filtrar por visibilidad"><option value="all">Todos</option><option value="active">Visibles</option><option value="inactive">Ocultos</option></select></div>
+        <div class="table-wrap"><table class="admin-table"><thead><tr><th>Imagen</th><th>Perfume</th><th>Precios</th><th>Existencias</th><th>Estado</th><th>Acción</th></tr></thead><tbody id="perfume-rows"></tbody></table></div>
+        <p class="table-empty" id="perfume-empty" hidden>No se encontraron perfumes con ese filtro.</p>
+      </section>
+    </section>
+
+    <section data-view="combos" hidden>
+      <section class="panel">
+        <div class="section-bar"><div><h2>Combos</h2><p class="subtitle">Actualiza precio, contenido, imagen y visibilidad.</p></div><span class="record-count" id="combo-count">0 registros</span></div>
+        <div class="toolbar"><input id="combo-search" type="search" placeholder="Buscar combo…" aria-label="Buscar combos"></div>
+        <div class="table-wrap"><table class="admin-table"><thead><tr><th>Imagen</th><th>Combo</th><th>Contenido</th><th>Precio</th><th>Estado</th><th>Acción</th></tr></thead><tbody id="combo-rows"></tbody></table></div>
+        <p class="table-empty" id="combo-empty" hidden>No se encontraron combos con ese filtro.</p>
+      </section>
+    </section>
+
+    <section data-view="settings" hidden>
+      <section class="panel settings-panel">
+        <h2>Datos del negocio</h2><p class="subtitle">Estos datos aparecen en el catálogo y en los enlaces de contacto.</p>
+        <form id="settings-form" class="edit-grid" novalidate>
+          <label>WhatsApp con código de país<input id="setting-whatsapp" required maxlength="20" inputmode="numeric"></label>
+          <label>Horario<input id="setting-hours" required maxlength="80"></label>
+          <label class="wide">Enlace de Google Maps<input id="setting-maps_url" type="url" required maxlength="500"></label>
+          <label class="wide">Instagram<input id="setting-instagram_url" type="url" required maxlength="500"></label>
+          <label class="wide">TikTok<input id="setting-tiktok_url" type="url" required maxlength="500"></label>
+          <label class="wide">Texto del descuento<input id="setting-discount_text" required maxlength="160"></label>
+          <div class="wide form-actions"><button class="btn gold" id="save-settings" type="submit">Guardar información</button></div>
+        </form>
+      </section>
+    </section>
+  </main>
+
+  <div class="admin-loading" id="admin-loading" role="status"><span></span><p>Cargando administración…</p></div>
+
+  <dialog class="edit-dialog" id="perfume-dialog">
+    <form id="perfume-form" class="dialog-card" novalidate>
+      <div class="dialog-heading"><div><p class="admin-eyebrow">Editar perfume</p><h2 id="perfume-dialog-title">Perfume</h2></div><button class="dialog-close" type="button" data-close-dialog aria-label="Cerrar">×</button></div>
+      <input id="perfume-id" type="hidden">
+      <div class="edit-grid">
+        <label>Nombre<input id="perfume-name" required maxlength="160"></label>
+        <label>Marca<input id="perfume-brand" required maxlength="100"></label>
+        <label>Precio 5 ml<input id="perfume-price-5" type="number" min="0" step="0.01" required></label>
+        <label>Precio 10 ml<input id="perfume-price-10" type="number" min="0" step="0.01" required></label>
+        <div class="locked wide" id="protected-price-note" hidden>Este registro tiene precios exactos protegidos. Puedes cambiar nombre, marca, existencias, imagen y visibilidad, pero no sus precios.</div>
+        <label>Existencias 5 ml<input id="perfume-stock-5" type="number" min="0" step="1" required></label>
+        <label>Existencias 10 ml<input id="perfume-stock-10" type="number" min="0" step="1" required></label>
+        <label>Existencias perfume completo<input id="perfume-stock-full" type="number" min="0" step="1" required></label>
+        <label>Nueva imagen (máx. 3 MB)<input id="perfume-image" type="file" accept="image/png,image/jpeg,image/webp"></label>
+        <label class="check-label"><input id="perfume-active" type="checkbox"><span>Mostrar en el catálogo</span></label>
+      </div>
+      <div class="form-actions"><button class="btn light" type="button" data-close-dialog>Cancelar</button><button class="btn gold" id="save-perfume" type="submit">Guardar cambios</button></div>
+    </form>
+  </dialog>
+
+  <dialog class="edit-dialog" id="combo-dialog">
+    <form id="combo-form" class="dialog-card" novalidate>
+      <div class="dialog-heading"><div><p class="admin-eyebrow">Editar combo</p><h2 id="combo-dialog-title">Combo</h2></div><button class="dialog-close" type="button" data-close-dialog aria-label="Cerrar">×</button></div>
+      <input id="combo-id" type="hidden">
+      <div class="edit-grid">
+        <label>Nombre<input id="combo-name" required maxlength="120"></label>
+        <label>Presentación<input id="combo-type" required maxlength="180"></label>
+        <label>Precio<input id="combo-price" type="number" min="0" step="0.01" required></label>
+        <label>Nueva imagen (máx. 3 MB)<input id="combo-image" type="file" accept="image/png,image/jpeg,image/webp"></label>
+        <label class="wide">Productos, uno por línea<textarea id="combo-items" rows="6" required maxlength="2000"></textarea></label>
+        <label class="check-label"><input id="combo-active" type="checkbox"><span>Mostrar combo</span></label>
+      </div>
+      <div class="form-actions"><button class="btn light" type="button" data-close-dialog>Cancelar</button><button class="btn gold" id="save-combo" type="submit">Guardar cambios</button></div>
+    </form>
+  </dialog>
+</body>
+</html>

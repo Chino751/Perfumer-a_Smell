@@ -1,0 +1,17 @@
+{
+  "name": "Perfumería Smell",
+  "short_name": "Smell",
+  "description": "Catálogo de perfumes, decants y combos en Montero, Bolivia.",
+  "lang": "es-BO",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f8f4eb",
+  "theme_color": "#15110b",
+  "icons": [
+    {
+      "src": "/assets/img/brand/logo-smell.webp",
+      "type": "image/webp",
+      "sizes": "any"
+    }
+  ]
+}

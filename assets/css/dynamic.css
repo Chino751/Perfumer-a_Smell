@@ -1,0 +1,10 @@
+.icon-defs{position:absolute;width:0;height:0;overflow:hidden}
+.catalog-status{max-width:1180px;margin:14px auto 0;padding:10px 12px;color:#6b6256;background:#f0e8da;border-radius:9px;font-size:12px}
+.catalog-status[data-kind="loading"]{color:#665019;background:#fff1c4}
+.catalog-status[data-kind="error"]{color:#8b251b;background:#ffe7e2}
+.catalog-status[data-kind="notice"]{color:#5d522f;background:#f7efd8}
+.loading-card{min-height:440px}
+.loading-block{aspect-ratio:4/5;background:linear-gradient(100deg,#1a150e 20%,#302719 40%,#1a150e 60%);background-size:200% 100%;animation:smell-loading 1.35s ease-in-out infinite}
+@keyframes smell-loading{to{background-position:-200% 0}}
+@media(prefers-reduced-motion:reduce){.loading-block{animation:none}}
+
