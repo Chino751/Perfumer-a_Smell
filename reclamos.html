@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="description" content="Canal de atención y reclamos de Perfumería Smell mediante WhatsApp.">
+  <title>Atención y reclamos | Perfumería Smell</title>
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <link rel="stylesheet" href="/assets/css/legal.css">
+  <script type="module" src="/src/claims.js"></script>
+</head>
+<body class="legal-page">
+<div class="site-shell">
+  <div data-legal-header></div>
+  <main class="legal-main">
+    <section class="legal-hero"><p class="eyebrow">Atención al cliente</p><h1>Atención y reclamos</h1><p>Completa los datos esenciales y abriremos WhatsApp con el reclamo listo para enviar.</p></section>
+    <section class="claim-layout">
+      <article class="legal-card"><h2>Enviar un reclamo</h2><form id="claim-form" class="claim-form" novalidate>
+        <label>Nombre completo <span>*</span><input id="claim-name" type="text" maxlength="100" autocomplete="name" required placeholder="Tu nombre"></label>
+        <label>Tipo de solicitud <span>*</span><select id="claim-type" required><option value="">Selecciona una opción</option><option>Consulta</option><option>Reclamo</option><option>Producto con inconveniente</option><option>Pago</option><option>Retiro del pedido</option><option>Otro</option></select></label>
+        <label>Número o referencia del pedido <small>(opcional)</small><input id="claim-order" type="text" maxlength="60" placeholder="Ej.: pedido de 28/08"></label>
+        <label>Detalle <span>*</span><textarea id="claim-detail" maxlength="1000" rows="6" required placeholder="Explícanos qué ocurrió y cómo podemos ayudarte."></textarea></label>
+        <label class="claim-check"><input id="claim-confirm" type="checkbox" required><span>Confirmo que la información enviada es correcta y acepto que la atención continúe por WhatsApp.</span></label>
+        <p id="claim-error" class="form-error" role="alert" hidden></p><button class="btn gold-button claim-submit" type="submit">Continuar en WhatsApp</button>
+      </form></article>
+      <aside class="claim-help legal-card"><p class="eyebrow">Canal directo</p><h2>¿Solo necesitas atención?</h2><p>Si no deseas presentar un reclamo formal, puedes abrir una conversación directa con un mensaje preparado.</p><a class="btn legal-secondary" data-whatsapp-link href="https://wa.me/59175631782" target="_blank" rel="noopener">Abrir atención por WhatsApp</a><div class="claim-tips"><strong>Para ayudarte más rápido</strong><span>• Indica el producto o pedido.</span><span>• Explica brevemente lo ocurrido.</span><span>• Si corresponde, envía fotografías desde WhatsApp.</span></div></aside>
+    </section>
+  </main>
+  <div data-legal-footer></div>
+</div>
+</body>
+</html>
